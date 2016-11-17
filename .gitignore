@@ -1,0 +1,28 @@
+# ignore directories created for the build process
+bin/
+build/
+build-*/
+build-deps/
+vendor/
+docs/
+nbproject/
+
+#Ignore compiled python scripts
+__pycache__/
+
+# ignore configuration files
+data/sql/setup.cfg
+
+# ignore OS generated files
+.DS_Store
+.redcar
+.cproject
+.project
+.settings
+*.kdev4
+data/docs/generated
+/nbproject/private/
+
+data/docs/doxygen
+
+swganh*deps*.*
