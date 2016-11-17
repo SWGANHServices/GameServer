@@ -1,0 +1,21 @@
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+DROP PROCEDURE IF EXISTS `sp_GetObject`;
+
+DELIMITER //
+CREATE PROCEDURE `sp_GetObject`(IN `object_id` BIGINT)
+    COMMENT 'Get''s the base object that all game objects have'
+BEGIN
+    SELECT *
+	FROM object LEFT JOIN swganh_static.iff_templates 
+	ON (object.iff_template_id = swganh_static.iff_templates.id) WHERE (object.id = object_id);
+END//
+DELIMITER ;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
