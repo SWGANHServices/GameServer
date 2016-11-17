@@ -1,0 +1,58 @@
+#python directories
+set(ANH_PYTHON_BINDINGS "")
+
+add_subdirectory(app)
+add_subdirectory(utilities)
+
+include(ANHExecutable)
+
+AddANHExecutable(swganh
+	DEPENDS
+		swganh_lib
+    ADDITIONAL_INCLUDE_DIRS
+        ${Boost_INCLUDE_DIR}
+        ${GLM_INCLUDE_DIR}
+        ${MYSQL_INCLUDE_DIR}
+        ${MYSQLCONNECTORCPP_INCLUDE_DIRS}
+        ${PYTHON_INCLUDE_DIR}
+        ${TBB_INCLUDE_DIRS}
+        ${ZLIB_INCLUDE_DIR}
+    DEBUG_LIBRARIES
+        ${PYTHON_LIBRARY}
+        ${Boost_CHRONO_LIBRARY_DEBUG}
+        ${Boost_DATE_TIME_LIBRARY_DEBUG}
+        ${Boost_LOG_SETUP_LIBRARY_DEBUG}
+        ${Boost_LOG_LIBRARY_DEBUG}
+        ${Boost_FILESYSTEM_LIBRARY_DEBUG}
+        ${Boost_PROGRAM_OPTIONS_LIBRARY_DEBUG}
+        ${Boost_PYTHON3_LIBRARY_DEBUG}
+        ${Boost_REGEX_LIBRARY_DEBUG}
+        ${Boost_SYSTEM_LIBRARY_DEBUG}
+        ${Boost_THREAD_LIBRARY_DEBUG}
+		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY_DEBUG}
+        ${MYSQL_LIBRARY_DEBUG}
+        ${MYSQLCONNECTORCPP_LIBRARY_DEBUG}
+        ${TBB_LIBRARIES}
+        ${ZLIB_LIBRARY_DEBUG}
+        ${DL_LIBRARY}
+        ${PTHREAD_LIBRARY}
+    OPTIMIZED_LIBRARIES
+        ${PYTHON_LIBRARY}
+        ${Boost_CHRONO_LIBRARY_RELEASE}
+        ${Boost_DATE_TIME_LIBRARY_RELEASE}
+        ${Boost_LOG_SETUP_LIBRARY_RELEASE}
+        ${Boost_LOG_LIBRARY_RELEASE}
+        ${Boost_FILESYSTEM_LIBRARY_RELEASE}
+        ${Boost_PROGRAM_OPTIONS_LIBRARY_RELEASE}
+        ${Boost_PYTHON3_LIBRARY_RELEASE}
+        ${Boost_REGEX_LIBRARY_RELEASE}
+        ${Boost_SYSTEM_LIBRARY_RELEASE}
+        ${Boost_THREAD_LIBRARY_RELEASE}
+		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE}
+        ${MYSQL_LIBRARY_RELEASE}
+        ${MYSQLCONNECTORCPP_LIBRARY_RELEASE}
+        ${TBB_LIBRARIES}
+        ${ZLIB_LIBRARY_RELEASE}
+        ${DL_LIBRARY}
+        ${PTHREAD_LIBRARY}
+)
