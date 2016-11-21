@@ -18,7 +18,7 @@ def CreateStartingCharacter(kernel, scale, base_model, customization, full_name,
 		gender = 'female'
 	# Get Starting Location
 	# HARDCODE FOR NOW...
-	startLoc = Locations['coronet']
+	startLoc = Locations['bestine']
 	# Create appropriate creature object...
 	species = GetSpecies(base_model)
 	creature = simulation.createObject(base_model.replace('player/', 'player/shared_'), ContainerPermission.CREATURE)

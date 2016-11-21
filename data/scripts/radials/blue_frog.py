@@ -3,9 +3,6 @@ from swgpy.object import *
 from swgpy.sui import *
 from swgpy.utility import vector3, quat
 from swgpy.combat import *
-from swgpy.gamesystems import *
-from swgpy import ACTION
-
 
 import random
 
@@ -15,14 +12,14 @@ class PyRadialMenu(RadialMenu):
 		radial_list = RadialOptionsList()
 		radial_list.append(RadialOptions(0, RadialIdentifier.itemUse, 1, 'Hack Universe'))
 		radial_list.append(RadialOptions(0, RadialIdentifier.examine, 1, ''))
-		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu1, 3, 'items'))
+		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu1, 3, 'Vehicles (6 items)'))
 		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu2, 3, 'Weapon Pack'))
 		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu3, 3, 'Armor Pack'))
 		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu4, 3, 'Structures Pack'))
 		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu5, 3, 'Pets Pack'))
-		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu6, 3, 'Instrument Pack'))
-		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu7, 3, 'Ham Options'))
-		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu8, 3, 'Professions'))
+		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu6, 3, 'Droids Pack'))
+		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu7, 3, 'Instrument Pack'))
+		radial_list.append(RadialOptions(1, RadialIdentifier.serverMenu8, 3, 'Ham Options'))
 		return radial_list
 	
 	levels = ('None', 'Light', 'Medium', 'Heavy')
@@ -114,32 +111,6 @@ class PyRadialMenu(RadialMenu):
 		window.subscribeToEventCallback(1, '', InputTrigger.CANCEL, results, callback)
 		sui.openSUIWindow(window)
 	
-			
-	def professionCallback(self, owner, event_id, results):
-		if event_id == 0:
-			if int(results[0]) == 0:
-				self.displaySUIList(owner, ['grant entertainer_novice'], 'entertainerCallback')
-		return True
-
-	def entertainerCallback(self, owner, event_id, results):
-		if event_id == 0:
-			if int(results[0]) == 0:
-				creature = owner.toCreature()
-				GameSytems = self.getKernel().serviceManager().gamesystemsService()
-				GameSytems.grantSkill(creature, "social_entertainer_novice")
-
-
-				
-		return True
-
-	def itemCallback(self, owner, event_id, results):
-		if event_id == 0:
-			if int(results[0]) == 0:
-				self.giveItems(owner, self.vehicleDeeds, self.defaultPostProcess)
-			if int(results[0]) == 1:
-				self.giveItems(owner, self.droidDeeds, self.defaultPostProcess)
-		return True
-
 	def weaponCallback(self, owner, event_id, results):
 		if event_id == 0:
 			self.giveItems(owner, self.weapons[int(results[0])], self.weaponPostProcess)
@@ -207,7 +178,7 @@ class PyRadialMenu(RadialMenu):
 		
 	def handleRadial(self, owner, target, action):
 		if action == RadialIdentifier.serverMenu1:
-			self.displaySUIList(owner, ['vehicles', 'droids'], 'itemCallback')
+			self.giveItems(owner, self.vehicleDeeds, self.defaultPostProcess)
 		elif action == RadialIdentifier.serverMenu2:
 			self.displaySUIList(owner, ['Melee Weapons', 'Ranged Weapons', 'Misc Weapons'], 'weaponCallback')
 		elif action == RadialIdentifier.serverMenu3:
@@ -220,11 +191,11 @@ class PyRadialMenu(RadialMenu):
 		elif action == RadialIdentifier.serverMenu5:
 			self.giveItems(owner, self.petDeeds, self.defaultPostProcess)
 		elif action == RadialIdentifier.serverMenu6:
-			self.giveItems(owner, self.instruments, self.defaultPostProcess)
+			self.giveItems(owner, self.droidDeeds, self.defaultPostProcess)
 		elif action == RadialIdentifier.serverMenu7:
-			self.displaySUIList(owner, ['Wounds', 'Damage'], 'hamCallback')
+			self.giveItems(owner, self.instruments, self.defaultPostProcess)
 		elif action == RadialIdentifier.serverMenu8:
-			self.displaySUIList(owner, ['entertainer'], 'professionCallback')
+			self.displaySUIList(owner, ['Wounds', 'Damage'], 'hamCallback')
 
 				
 	vehicleDeeds = ('object/tangible/deed/vehicle_deed/shared_jetpack_deed.iff',
