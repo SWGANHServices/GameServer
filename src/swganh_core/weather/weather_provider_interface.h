@@ -6,8 +6,10 @@
 #include <tuple>
 #include <vector>
 
-#include "swganh/character/character_data.h"
-#include "swganh/messages/client_create_character.h"
+//#include "swganh/character/character_data.h"
+//#include "swganh/messages/client_create_character.h"
+#include "swganh_core\character\character_data.h"
+#include "swganh_core/messages/client_create_character.h"
 
 namespace swganh
 {

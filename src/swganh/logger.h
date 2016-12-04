@@ -2,6 +2,8 @@
 // See file LICENSE or go to http://swganh.com/LICENSE
 #pragma once
 
+#define BOOST_VARIANT_USE_RELAXED_GET_BY_DEFAULT
+
 #include <iosfwd>
 #include <iostream>
 

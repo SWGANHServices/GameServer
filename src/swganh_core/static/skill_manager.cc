@@ -1,6 +1,8 @@
 // This file is part of SWGANH which is released under the MIT license.
 // See file LICENSE or go to http://swganh.com/LICENSE
 
+#define BOOST_VARIANT_USE_RELAXED_GET_BY_DEFAULT
+
 #include "skill_manager.h"
 #include <swganh/logger.h>
 #include <cppconn/exception.h>

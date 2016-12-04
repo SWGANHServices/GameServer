@@ -1403,6 +1403,10 @@ void Object::__InternalUpdateWorldCollisionBox()
     glm::quat rotation;
     __InternalGetAbsolutes(pos, rotation);
 
+//	Big problem there with updated boost 
+//	May have to rewrite this block! 
+//	As a work around I've hacked the boost adn rollered the Geomatry folder back 
+//	to the last version that this code will work with
     auto rot = glm::yaw(rotation);
     boost::geometry::strategy::transform::translate_transformer<Point, Point> translate(pos.x, pos.z);
 
