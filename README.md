@@ -1,4 +1,3 @@
-# No Longer in Development
 ##SWGanh:GameServer
 [swganh][1] - an open source Star Wars Galaxies Publish 14.1 server emulator
 =======================================================================
