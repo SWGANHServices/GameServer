@@ -1,7 +1,6 @@
 // This file is part of SWGANH which is released under the MIT license.
 // See file LICENSE or go to http://swganh.com/LICENSE
 #pragma once
-#include "swganh/byte_buffer.h"
 
 namespace swganh
 {
@@ -30,34 +29,20 @@ struct SkillMod
     ~SkillMod(void)
     {}
 
-    void SerializeBaseline(swganh::ByteBuffer& buffer)
+    void Serialize(swganh::messages::BaselinesMessage& message)
     {
-        buffer.write<uint8_t>(0);                 // Unused (delta left over so please keep otherwise we'll crash :) )
-        buffer.write<std::string>(identifier);    // Identifier
-		buffer.write<uint32_t>(base);             // Base
-        buffer.write<uint32_t>(modifier);         // Modifier
+        message.data.write<uint8_t>(0);                 // Unused
+        message.data.write<std::string>(identifier);    // Identifier
+        message.data.write<uint32_t>(base);             // Base
+        message.data.write<uint32_t>(modifier);         // Modifier
     }
 
-    void SerializeDelta(swganh::ByteBuffer& buffer)
+    void Serialize(swganh::messages::DeltasMessage& message)
     {
-        buffer.write<std::string>(identifier);    // Identifier
-        buffer.write<uint32_t>(base);             // Base
-        buffer.write<uint32_t>(modifier);         // Modifier
+        message.data.write<std::string>(identifier);    // Identifier
+        message.data.write<uint32_t>(base);             // Base
+        message.data.write<uint32_t>(modifier);         // Modifier
     }
-
-
-	//
-	static void SerializeDelta(swganh::ByteBuffer& buffer, SkillMod& sm)
-	{
-		sm.SerializeDelta(buffer);
-	}
-
-	//without this skillmods is broken as the struct cant be serialized to the messagestream
-	static void SerializeBaseline(swganh::ByteBuffer& buffer, SkillMod& sm)
-	{
-		sm.SerializeBaseline(buffer);
-	}
-
 
     bool operator==(const SkillMod& other)
     {

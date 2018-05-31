@@ -135,7 +135,7 @@ enum Type :
     bool HasController(boost::unique_lock<boost::mutex>& lock);
 
     /**
-     * @return The current controller (ObserverInterface) for the object, or nullptr if none exists.
+     * @return The current controller for the object, or nullptr if none exists.
      *
      * @TODO Consider returning a null object instead of nullptr.
      */
@@ -144,7 +144,7 @@ enum Type :
 
     /**
      * Sets the controller for this Object instance.
-     * (ObserverInterface)
+     *
      * @param controller
      */
     void SetController(const std::shared_ptr<swganh::observer::ObserverInterface>& controller);
@@ -152,7 +152,6 @@ enum Type :
 
     /**
      * Clears the active current controller, if one exists, for this instance.
-	 * this means all aware subscribers are removed of the subscription
      */
     void ClearController();
     void ClearController(boost::unique_lock<boost::mutex>& lock);
@@ -168,12 +167,7 @@ enum Type :
     virtual void __InternalViewAwareObjects(std::function<void(std::shared_ptr<swganh::object::Object>)> func, std::shared_ptr<swganh::object::Object> hint=nullptr);
     virtual void __InternalRemoveAwareObject(std::shared_ptr<Object> object, bool reverse_still_valid);
 
-    /**
-	* Reloads all Object for a player that has relogged before the timer destroyed the PlayerObject serverside
-	*/
-	virtual	void __InternalReloadPlayer();
-
-	virtual int32_t __InternalInsert(std::shared_ptr<Object> object, glm::vec3 new_position, int32_t arrangement_id=-2);
+    virtual int32_t __InternalInsert(std::shared_ptr<Object> object, glm::vec3 new_position, int32_t arrangement_id=-2);
     virtual void __InternalViewObjects(std::shared_ptr<Object> requester, uint32_t max_depth, bool topDown, std::function<void(std::shared_ptr<Object>)> func);
     virtual void __InternalGetObjects(std::shared_ptr<Object> requester, uint32_t max_depth, bool topDown, std::list<std::shared_ptr<Object>>& out);
 
@@ -504,11 +498,9 @@ enum Type :
      */
     virtual void CreateBaselines(std::shared_ptr<swganh::observer::ObserverInterface> observer);
 
-
     /**
      * @brief Sends the create by crc message to the observer of 'this' object
      */
-
     virtual void SendCreateByCrc(std::shared_ptr<swganh::observer::ObserverInterface> observer);
     virtual void SendCreateByCrc(std::shared_ptr<swganh::observer::ObserverInterface> observer, boost::unique_lock<boost::mutex>& lock);
 
@@ -675,13 +667,7 @@ enum Type :
     bool IsCollidable(void) const;
     bool IsCollidable(boost::unique_lock<boost::mutex>& lock) const;
 
-	void SetIsInTre(bool inTre);
-	void SetIsInTre(bool inTre, boost::unique_lock<boost::mutex>& lock);
-
-	bool IsInTre(void) const;
-	bool IsInTre(boost::unique_lock<boost::mutex>& lock) const;
-
-	boost::unique_lock<boost::mutex> AcquireLock() const;
+    boost::unique_lock<boost::mutex> AcquireLock() const;
     boost::unique_lock<boost::mutex> AcquireLock(boost::defer_lock_t t) const;
     boost::unique_lock<boost::mutex> AcquireLock(boost::try_to_lock_t t) const;
     boost::unique_lock<boost::mutex> AcquireLock(boost::adopt_lock_t t) const;
@@ -718,7 +704,6 @@ private:
     bool is_dirty_;
     bool database_persisted_;
     bool in_snapshot_;
-	bool is_in_tre_;
 
     std::set<std::string> flags_;
 

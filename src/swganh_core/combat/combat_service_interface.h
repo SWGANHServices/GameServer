@@ -50,11 +50,8 @@ namespace command
 class BaseCombatCommand;
 }
 
-
 namespace combat
 {
-
-class HamInterface;
 
 class CombatServiceInterface : public swganh::service::BaseService
 {
@@ -68,11 +65,7 @@ public:
     virtual void EndDuel(const std::shared_ptr<swganh::object::Creature>& attacker, const std::shared_ptr<swganh::object::Creature>& target) = 0;
     virtual void EndCombat(const std::shared_ptr<swganh::object::Creature>& attacker, const std::shared_ptr<swganh::object::Creature>& target) = 0;
 
-    virtual HamInterface* GetHamManager() = 0;
-	
-	virtual void SayHi() = 0;
-
-	virtual void Startup() = 0;
+    virtual void Startup() = 0;
 
     virtual void SendCombatAction(swganh::command::BaseCombatCommand* command) = 0;
 };

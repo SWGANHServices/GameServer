@@ -41,7 +41,6 @@ void exportSocialService()
     .value("TALUS", TALUS)
     .value("TATOOINE", TATOOINE)
     .value("YAVIN4", YAVIN4)
-	.value("TAANAB", TAANAB)
     ;
 
     class_<WeatherServiceInterface, shared_ptr<WeatherServiceInterface>, boost::noncopyable>("WeatherService", "The weather service processes in-game weather features.", no_init)

@@ -91,7 +91,7 @@ public:
 
     // Skills
     void AddSkill(std::string skill);
-    void AddSkill(std::string skill, boost::unique_lock<boost::mutex>& lock, bool persist = true);
+    void AddSkill(std::string skill, boost::unique_lock<boost::mutex>& lock);
 
     void RemoveSkill(std::string skill);
     void RemoveSkill(std::string skill, boost::unique_lock<boost::mutex>& lock);
@@ -105,10 +105,7 @@ public:
     void SerializeSkills(swganh::messages::BaseSwgMessage* message);
     void SerializeSkills(swganh::messages::BaseSwgMessage* message, boost::unique_lock<boost::mutex>& lock);
 
-    std::queue<std::pair<uint8_t, std::string>> GetSkillsSyncQueue();
-	std::queue<std::pair<uint8_t, std::string>> GetSkillsSyncQueue(boost::unique_lock<boost::mutex>& lock);
-
-	// Skill Commands
+    // Skill Commands
     std::map<uint32_t, std::string> GetSkillCommands();
     std::map<uint32_t, std::string> GetSkillCommands(boost::unique_lock<boost::mutex>& lock);
 
@@ -436,25 +433,16 @@ public:
     void DeductStatCurrent(uint16_t stat_index, int32_t value);
     void DeductStatCurrent(uint16_t stat_index, int32_t value, boost::unique_lock<boost::mutex>& lock);
 
-    /**	returns  the vector containing all current stats
-	*	use GetStatCurrent to get a discrete current stat
-	*/
-	std::vector<int32_t> GetCurrentStats();
+    std::vector<int32_t> GetCurrentStats();
     std::vector<int32_t> GetCurrentStats(boost::unique_lock<boost::mutex>& lock);
 
-    /**	Get a discrete current stat
-	*	returns int_32_t
-	*	current stat is the stat describing the hitpoints we *currently* have
-	*/
-	int32_t GetStatCurrent(uint16_t stat_index);
+    int32_t GetStatCurrent(uint16_t stat_index);
     int32_t GetStatCurrent(uint16_t stat_index, boost::unique_lock<boost::mutex>& lock);
 
     void SerializeCurrentStats(swganh::messages::BaseSwgMessage* message);
     void SerializeCurrentStats(swganh::messages::BaseSwgMessage* message, boost::unique_lock<boost::mutex>& lock);
 
-    /**	Max Stats
-	*	This is the maximum we can *currently* have with all buffs and debuffs
-	*/
+    // Max Stats
     void SetStatMax(uint16_t stat_index, int32_t value);
     void SetStatMax(uint16_t stat_index, int32_t value, boost::unique_lock<boost::mutex>& lock);
 
@@ -464,8 +452,7 @@ public:
     void DeductStatMax(uint16_t stat_index, int32_t value);
     void DeductStatMax(uint16_t stat_index, int32_t value, boost::unique_lock<boost::mutex>& lock);
 
-    //Max stat or modified stat is the maximum stat size based on our base stat and modifikations like buffs etc
-	std::vector<int32_t> GetMaxStats();
+    std::vector<int32_t> GetMaxStats();
     std::vector<int32_t> GetMaxStats(boost::unique_lock<boost::mutex>& lock);
 
     int32_t GetStatMax(uint16_t stat_index);
@@ -572,10 +559,8 @@ public:
 private:
     uint32_t    bank_credits_;
     uint32_t    cash_credits_;
-	//base HAM stats
     swganh::containers::NetworkVector<int32_t> stat_base_list_;
     swganh::containers::NetworkSet<std::string> skills_;
-	std::queue<std::pair<uint8_t, std::string>>	skills_sync_queue_;
     std::map<uint32_t, std::string> skill_commands_;
     uint32_t    posture_;
     uint8_t     faction_rank_;
@@ -587,7 +572,7 @@ private:
     float       acceleration_multiplier_base_;
     float       acceleration_multiplier_modifier_;
     swganh::containers::NetworkVector<int32_t> stat_encumberance_list_;
-	swganh::containers::NetworkMap<std::string, SkillMod, SkillMod> skill_mod_list_;
+    swganh::containers::NetworkMap<std::string, SkillMod> skill_mod_list_;
     float       speed_multiplier_base_;
     float       speed_multiplier_modifier_;
     uint64_t    listen_to_id_;

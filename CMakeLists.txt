@@ -76,7 +76,7 @@ option(BUILD_EXAMPLES
     "Explicitly force building of examples" OFF)
 
 option(TREAT_WARNINGS_AS_ERRORS
-    "Treat all warnings as errors" OFF)
+    "Treat all warnings as errors" ON)
 
 if(ENABLE_TEST_REPORT)
     enable_testing()

@@ -121,23 +121,23 @@ StaticService::StaticService(SwganhKernel* kernel)
             }
 
             //@todo: remove this hardcoded spawn
-//            if (real_event->scene_id-1 == 0)
-//            {
-//                // Create a combat dummy
-//                auto simulation_service = kernel_->GetServiceManager()->GetService<SimulationServiceInterface>("SimulationService");
-//                auto combat_dummy = simulation_service->CreateObjectFromTemplate("object/mobile/shared_r2d2.iff", CREATURE_PERMISSION, false, true);
-//                if (combat_dummy)
-//                {
-//                    auto creature_dummy = std::static_pointer_cast<Creature>(combat_dummy);
-//                    creature_dummy->SetCustomName(L"R2 D2 Combat Trainer");
-//                    creature_dummy->SetPvPStatus(PvPStatus_Attackable);
-//                    creature_dummy->SetAllStats(50000);
-//                    creature_dummy->SetPosition(glm::vec3(-146.0f, 28.0f, -4702.0f));
-//                    creature_dummy->SetOrientation(glm::quat(0.0f, 1.0f, 0.0f, -0.0016f));
-//                    creature_dummy->SetScale(3);
-//                    simulation_service->AddObjectToScene(combat_dummy, "corellia");
-//                }
-//           }
+            if (real_event->scene_id-1 == 0)
+            {
+                // Create a combat dummy
+                auto simulation_service = kernel_->GetServiceManager()->GetService<SimulationServiceInterface>("SimulationService");
+                auto combat_dummy = simulation_service->CreateObjectFromTemplate("object/mobile/shared_r2d2.iff", CREATURE_PERMISSION, false, true);
+                if (combat_dummy)
+                {
+                    auto creature_dummy = std::static_pointer_cast<Creature>(combat_dummy);
+                    creature_dummy->SetCustomName(L"R2 D2 Combat Trainer");
+                    creature_dummy->SetPvPStatus(PvPStatus_Attackable);
+                    creature_dummy->SetAllStats(50000);
+                    creature_dummy->SetPosition(glm::vec3(-146.0f, 28.0f, -4702.0f));
+                    creature_dummy->SetOrientation(glm::quat(0.0f, 1.0f, 0.0f, -0.0016f));
+                    creature_dummy->SetScale(3);
+                    simulation_service->AddObjectToScene(combat_dummy, "corellia");
+                }
+            }
         });
     });
 
@@ -161,8 +161,6 @@ void StaticService::Startup()
 
     std::stringstream ss;
     ss << "CALL sp_GetStaticData();";
-
-	//sofar this loads the tables skills; skills_skill_required and skills_skillmods
 
     auto statement = std::shared_ptr<sql::Statement>(conn->createStatement());
     statement->execute(ss.str());
@@ -204,7 +202,6 @@ void StaticService::_loadBuildings(SimulationServiceInterface* simulation_servic
         object->SetSceneId(scene_id);
         object->SetInSnapshot(true);
         object->SetDatabasePersisted(false);
-		object->SetIsInTre(true);
 
         //Put it into the scene
         simulation_service->AddObjectToScene(object, scene_name);
@@ -226,7 +223,6 @@ void StaticService::_loadCells(SimulationServiceInterface* simulation_service, s
         object->SetSceneId(scene_id);
         object->SetInSnapshot(true);
         object->SetDatabasePersisted(false);
-		object->SetIsInTre(true);
 
         auto parent = simulation_service->GetObjectById(result->getInt64(2));
         if(parent != nullptr)
@@ -259,8 +255,7 @@ void StaticService::_loadTerminals(SimulationServiceInterface* simulation_servic
         if(object == nullptr)
             continue;
 
-        object->SetIsInTre(true);
-		object->SetOrientation(glm::quat(
+        object->SetOrientation(glm::quat(
                                    static_cast<float>(result->getDouble(6)),
                                    static_cast<float>(result->getDouble(3)),
                                    static_cast<float>(result->getDouble(4)),
@@ -348,7 +343,7 @@ void StaticService::_loadTicketCollectors(SimulationServiceInterface* simulation
 
         if(object == nullptr)
             continue;
-		object->SetIsInTre(true);
+
         object->SetOrientation(glm::quat(
                                    static_cast<float>(result->getDouble(7)),
                                    static_cast<float>(result->getDouble(4)),

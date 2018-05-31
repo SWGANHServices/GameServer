@@ -66,8 +66,7 @@ void PlayerService::Startup()
         "ObjectReadyEvent",
         [this] (shared_ptr<EventInterface> incoming_event)
     {
-        LOG(error) <<"PlayerService::Startup() :: ObjectReadyEvent";
-		auto creature = static_pointer_cast<ValueEvent<shared_ptr<Creature>>>(incoming_event)->Get();
+        auto creature = static_pointer_cast<ValueEvent<shared_ptr<Creature>>>(incoming_event)->Get();
 
         //Reload buffs from last login
         auto controller = creature->GetController();
@@ -131,11 +130,7 @@ void PlayerService::OnPlayerExit(shared_ptr<swganh::object::Player> player)
         auto deadline_timer = std::make_shared<boost::asio::deadline_timer>(kernel_->GetCpuThreadPool(), boost::posix_time::seconds(30));
         auto parent = std::static_pointer_cast<swganh::object::Object>(player->GetContainer());
 
-        kernel_->GetEventDispatcher()->Dispatch(
-			make_shared<ValueEvent<shared_ptr<swganh::object::Object>>>("ObjectRemovedEvent", parent));
-
-
-		auto object_controller = simulation_service_->GetObjectController(parent->GetObjectId());
+        auto object_controller = std::static_pointer_cast<swganh::object::ObjectController>(parent->GetController());
         if(object_controller != nullptr)
         {
             deadline_timer->async_wait(boost::bind(&PlayerService::RemoveClientTimerHandler_, this, boost::asio::placeholders::error, deadline_timer, 30, object_controller));
@@ -274,7 +269,7 @@ void PlayerService::RemoveClientTimerHandler_(
     int delay_in_secs,
     shared_ptr<swganh::object::ObjectController> controller)
 {
-	if (controller)
+    if (controller)
     {
         // destroy if they haven't reconnected
         if (controller->GetRemoteClient() == nullptr || !controller->GetRemoteClient()->connected())
@@ -302,10 +297,10 @@ void PlayerService::RemoveClientTimerHandler_(
             StoreAllCalledMounts(creature);
             creature->CleanUpBuffs();
 
-			simulation_service_->StopControllingObject(object_id);
+            simulation_service_->RemoveObject(object);
 
-			simulation_service_->RemoveObject(object);
-
+            kernel_->GetEventDispatcher()->Dispatch(
+                make_shared<ValueEvent<shared_ptr<swganh::object::Object>>>("ObjectRemovedEvent", object));
         }
     }
 }

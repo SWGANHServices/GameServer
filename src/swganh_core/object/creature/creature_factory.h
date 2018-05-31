@@ -3,14 +3,10 @@
 #pragma once
 
 #include "swganh_core/object/tangible/tangible_factory.h"
-#include "swganh_core/static/skill_manager.h"
-#include "swganh/event_dispatcher.h"
-
 #include <unordered_map>
 
 namespace swganh
 {
-
 namespace database
 {
 class DatabaseManagerInterface;
@@ -22,15 +18,9 @@ namespace sql
 class Statement;
 }  // namespace sql
 
-namespace skill
-{
-class Skill;
-} // namespace skill we need to persist those
-
 namespace swganh
 {
-
-	namespace object
+namespace object
 {
 
 class Creature;
@@ -44,12 +34,6 @@ public:
     virtual void LoadFromStorage(const std::shared_ptr<sql::Connection>& connection, const std::shared_ptr<Object>& object, boost::unique_lock<boost::mutex>& lock);
 
     virtual uint32_t PersistObject(const std::shared_ptr<swganh::object::Object>& object, boost::unique_lock<boost::mutex>& lock, bool persist_inherited = false);
-
-	/**
-	* @brief adds or removes a skill for a creature to the respective db table
-	* still to find out is how skill commands relate to that
-	*/
-	virtual uint32_t PersistSkills(const std::shared_ptr<swganh::object::Object>& object, boost::unique_lock<boost::mutex>& lock, bool persist_inherited = false);
 
     void DeleteObjectFromStorage(const std::shared_ptr<swganh::object::Object>& object);
     virtual void PersistChangedObjects();

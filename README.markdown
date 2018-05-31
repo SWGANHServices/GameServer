@@ -1,12 +1,11 @@
-##SWGanh:GameServer
 [swganh][1] - an open source Star Wars Galaxies Publish 14.1 server emulator
 =======================================================================
 
 This project aims to recreate the Star Wars Galaxies Pre-Combat Upgrade experience as it was during Publish 14.1. In addition it serves as a playground for experimenting with new ideas for MMORPG server architecture, for more information see the [online documentation][2].
 
-### Quick Build Guide ##
+## Quick Build Guide ##
 
-#### Requirements ###
+### Requirements ###
 
 *   Microsoft Visual Studio 11.0 Beta or higher (windows)
 *   GCC 4.6 (*nix)
@@ -15,7 +14,7 @@ This project aims to recreate the Star Wars Galaxies Pre-Combat Upgrade experien
 *   Python 3.2
 *   MySQL 5.1/MariaDB 5.2 or higher
 
-#### Visual Studio / Windows Development ###
+### Visual Studio / Windows Development ###
 
 Use git to checkout the latest version of the source:
 
@@ -23,7 +22,7 @@ Use git to checkout the latest version of the source:
 
 Next, download the latest dependencies package for Visual Studio 11 here: 
 
-https://github.com/obi-two/GameServer/releases/download/7/vendor-msvc-11-v7.7z
+https://github.com/anhstudios/swganh/downloads
 
 Extract this inside of the swganh repository you just cloned:
 
@@ -47,7 +46,7 @@ To add a new file, manually create it in the src directory and then run the foll
     cmake ..
 
 
-#### GCC / Linux Development ###
+### GCC / Linux Development ###
 
 On linux platforms a minimum of GCC 4.6 is required to build the project. After running the bootstrap script as outlined in the Quick Build Guide change directories to the **build** directory. You can use your favorite text editor to edit source files, the project can be rebuilt using familiar gnu make commands.
 
@@ -60,11 +59,11 @@ On linux platforms a minimum of GCC 4.6 is required to build the project. After 
     
 A more complete set of instructions that covers building dependencies can be found in the official documentation.
 
-#### Clang and other compilers ###
+### Clang and other compilers ###
 
 [Clang][3] does not yet support lambdas, a C++0x feature commonly used in this project. Once lambda support is available we will investigate officially adopting it as a supported compiler. 
 
-### Quick Links ##
+## Quick Links ##
 
 *   **[Online Documentation][2]**
 

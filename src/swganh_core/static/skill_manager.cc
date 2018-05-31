@@ -2,7 +2,7 @@
 // See file LICENSE or go to http://swganh.com/LICENSE
 
 #include "skill_manager.h"
-#include <swganh/logger.h>
+
 #include <cppconn/exception.h>
 #include <cppconn/connection.h>
 #include <cppconn/resultset.h>
@@ -45,7 +45,6 @@ void SkillManager::_loadSkills(std::unique_ptr<sql::ResultSet> result)
 
         skills_.insert(std::make_pair(name, skill));
     }
-
 }
 
 void SkillManager::_loadSkillPrereqs(std::unique_ptr<sql::ResultSet> result)
@@ -71,14 +70,12 @@ void SkillManager::_loadSkillsRequiredSpecies(std::unique_ptr<sql::ResultSet> re
 
 void SkillManager::_loadSkillMods(std::unique_ptr<sql::ResultSet> result)
 {
-	//SELECT s.skill_name, smod.skillmod_name, m.value FROM skills_skillmods m
     while(result->next())
     {
         std::string skillname = result->getString(1);
         auto find_itr = skills_.find(skillname);
 
-        //adds the skillmods
-		if(find_itr != skills_.end())
+        if(find_itr != skills_.end())
         {
             std::string modname = result->getString(2);
             find_itr->second->skill_mods_.insert(std::make_pair(modname, result->getUInt(3)));
@@ -86,57 +83,6 @@ void SkillManager::_loadSkillMods(std::unique_ptr<sql::ResultSet> result)
     }
 }
 
-void SkillManager::DropSkill(const std::shared_ptr<swganh::object::Creature>& creature, const std::string& skill_name)
-{
-	//look up the skill
-	auto find_itr = skills_.find(skill_name);
-	if(find_itr != skills_.end())	{
-
-		//iterate through the mods and remove them
-		auto mod_map = (find_itr)->second->skill_mods_;
-		auto mod_itr = mod_map.begin();
-		while(mod_itr != mod_map.end())	{
-
-
-			//we now need to check whether we remove the mod or just manipulate the value
-			auto mod = creature->GetSkillMod(mod_itr->first);
-			uint32_t characterModValue	= 	mod.modifier;
-			uint32_t skillModValue		=	mod_itr->second;
-
-
-			//dont remove the mod just alter its value
-			if(characterModValue > skillModValue)	{
-				mod.modifier = characterModValue - skillModValue;
-				creature->SetSkillMod(mod);
-			}
-			else if(characterModValue == skillModValue)	{
-				//ok we need to remove the mod
-				//this will send the relevant deltas to the player
-				creature->RemoveSkillMod(mod_itr->first);
-			}
-			else	{
-				//panic
-				LOG(error) << "Dropskill skillmodvalues dont add up";
-
-			}
-		}
-
-		//todo handle skillcommands schematic
-
-
-		//prepare skillcommands
-
-
-		//prepare schematics
-
-
-		//remove skill
-	}
-	else	{
-		//bail out we dont own the skill
-		return;
-	}
-}
 std::pair<uint32_t, uint32_t> SkillManager::GetSkillMod(const std::shared_ptr<Creature>& creature, const std::string& skill_mod_name)
 {
     std::map<std::string, std::pair<uint32_t, uint32_t>> mods = GetSkillMods(creature);

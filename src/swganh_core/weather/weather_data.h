@@ -32,8 +32,7 @@ uint32_t
     RORI,
     TALUS,
     TATOOINE,
-    YAVIN4,
-	TAANAB
+    YAVIN4
 };
 
 class WeatherEvent

@@ -139,17 +139,14 @@ bool ConnectionService::RemoveSession(std::shared_ptr<Session> session)
 
     auto connection_client = static_pointer_cast<ConnectionClient>(session);
 
-	//get the ObserverInterface
     if (auto controller = connection_client->GetController())
     {
-        //we might not want to do this at this point - we still might log back in
-		//the controller is needed to find the
-		//simulation_service_->StopControllingObject(controller->GetId());
+        simulation_service_->StopControllingObject(controller->GetId());
 
         kernel_->GetEventDispatcher()->Dispatch(std::make_shared<ValueEvent<uint64_t>>("Connection::ControllerConnectionClosed", controller->GetId()));
     }
 
-    LOG(info) << "Removing disconnected client : " << connection_client->GetPlayerId();
+    LOG(info) << "Removing disconnected client";
     session_provider_->EndGameSession(connection_client->GetPlayerId());
 
 

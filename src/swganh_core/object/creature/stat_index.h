@@ -24,20 +24,5 @@ uint16_t
     WILLPOWER
 };
 
-enum MainStatIndex :
-
-uint16_t
-{
-	MAINHEALTH = 0,
-	MAINACTION = 3,
-	MAINMIND = 6
-};
-
-inline MainStatIndex& operator++(MainStatIndex& e)
-{
-	static MainStatIndex next[] = { MainStatIndex::MAINACTION, MainStatIndex::MAINMIND, MainStatIndex::MAINHEALTH };
-	return e=next[e];
-}
-
 }
 }

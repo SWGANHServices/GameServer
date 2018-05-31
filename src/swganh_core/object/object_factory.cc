@@ -130,7 +130,6 @@ void ObjectFactory::RegisterEventHandlers()
 void ObjectFactory::PersistChangedObjects()
 {
     std::set<shared_ptr<Object>> persisted;
-	std::pair<shared_ptr<Object>,HashString> p1;
     {
         boost::lock_guard<boost::mutex> lg(persisted_objects_mutex_);
         persisted = move(persisted_objects_);
@@ -155,17 +154,6 @@ void ObjectFactory::PersistHandler(const shared_ptr<swganh::EventInterface>& inc
     }
 }
 
-void ObjectFactory::PersistHandlerQueue(const shared_ptr<swganh::EventInterface>& incoming_event)
-{
-	auto object = static_pointer_cast<ObjectEvent>(incoming_event)->Get();
-	HashString typ = static_pointer_cast<ObjectEvent>(incoming_event)->Type();
-	if (object && object->IsDatabasePersisted())
-	{
-		boost::lock_guard<boost::mutex> lg(persisted_objects_mutex_);
-		persisted_objects_queue_.push(make_pair(object,typ));
-	}
-}
-
 uint32_t ObjectFactory::PersistObject(const shared_ptr<Object>& object, boost::unique_lock<boost::mutex>& lock, bool persist_inherited)
 {
     uint32_t counter = 1;
@@ -178,9 +166,7 @@ uint32_t ObjectFactory::PersistObject(const shared_ptr<Object>& object, boost::u
         auto container = object->GetContainer(lock);
         if (container != nullptr)
         {
-            // WTF!!
-			
-			prepared_statement->setUInt(counter++, object->GetSceneId(lock));
+            prepared_statement->setUInt(counter++, object->GetSceneId(lock));
 
             //We need to make sure we only have one object locked a time.
             lock.unlock();
@@ -189,9 +175,6 @@ uint32_t ObjectFactory::PersistObject(const shared_ptr<Object>& object, boost::u
         }
         else
         {
-			//ever wondered what happens if the object is saved while the character is being deleted?
-			//I had several inventories and some items with owner ID zero in the db
-			//and Im not 100% sure what causes this
             prepared_statement->setUInt(counter++, object->GetSceneId(lock));
             prepared_statement->setUInt64(counter++, 0);
         }
